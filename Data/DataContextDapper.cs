@@ -2,7 +2,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace BasicDotNet_WebAPI.Data
+namespace Intermediate_DotNet_WebAPI.Data
 {
     public class DataContextDapper
     {

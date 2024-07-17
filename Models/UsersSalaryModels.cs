@@ -1,4 +1,4 @@
-﻿namespace BasicDotNet_WebAPI.Models
+﻿namespace Intermediate_DotNet_WebAPI.Models
 {
     public class UsersSalaryModels
     {
