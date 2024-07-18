@@ -47,7 +47,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
                     string sqlAddAuth = @"
                         INSERT INTO TutorialAppSchema.Auth(
                             [Email],
-                            [PasswordHash],
+                            [PasswordHash], 
                             [PasswordSalt]) 
                         VALUES (
                         '" + usersRegistration.Email + "'" +
