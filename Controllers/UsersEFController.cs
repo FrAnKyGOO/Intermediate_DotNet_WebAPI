@@ -9,12 +9,12 @@ namespace Intermediate_DotNet_WebAPI.Controllers
     public class UsersEFController : Controller
     {
         IMapper _mapper;
-        DataContextEF _entityFramework;
+        //DataContextEF _entityFramework;
         IUserRepository _userRepository;
 
         public UsersEFController(IConfiguration config, IUserRepository userRepository)
         {
-            _entityFramework = new DataContextEF(config);
+            //_entityFramework = new DataContextEF(config);
 
             _mapper = new Mapper(new MapperConfiguration(cfg =>
             {
@@ -30,7 +30,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpGet("GetUsers")]
         public IEnumerable<UsersModels> GetUsers()
         {
-            IEnumerable<UsersModels> Users = _entityFramework.Users.ToList<UsersModels>();
+            IEnumerable<UsersModels> Users = _userRepository.GetUsers();
             return Users;
         }
 
@@ -38,25 +38,23 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         public UsersModels GetSingleUsers(int UserId)
         {
 
-            UsersModels? Users = _entityFramework.Users
-                .Where(u => u.UserId == UserId)
-                .FirstOrDefault<UsersModels>();
+            //UsersModels? Users = _entityFramework.Users
+            //    .Where(u => u.UserId == UserId)
+            //    .FirstOrDefault<UsersModels>();
 
-            if (Users == null)
-            {
-                return Users;
-            }
+            //if (Users == null)
+            //{
+            //    return Users;
+            //}
 
-            throw new Exception("Failed to Get User");
-
+            //throw new Exception("Failed to Get User");
+            return _userRepository.GetSingleUsers(UserId);
         }
 
         [HttpPut("EditDataUser")]
         public IActionResult EditDataUser(UsersModels user)
         {
-            UsersModels? UserDb = _entityFramework.Users
-               .Where(u => u.UserId == user.UserId)
-               .FirstOrDefault<UsersModels>();
+            UsersModels? UserDb = _userRepository.GetSingleUsers(user.UserId);
 
             if (UserDb != null)
             {
@@ -95,9 +93,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpDelete("DeleteUserByID/{UserId}")]
         public IActionResult DeleteUserByID(int UserId)
         {
-            UsersModels? userDb = _entityFramework.Users
-            .Where(u => u.UserId == UserId)
-            .FirstOrDefault<UsersModels>();
+            UsersModels? userDb = _userRepository.GetSingleUsers(UserId);
 
             if (userDb != null)
             {
@@ -117,11 +113,9 @@ namespace Intermediate_DotNet_WebAPI.Controllers
 
         #region Users Salary
         [HttpGet("UserSalary/{userId}")]
-        public IEnumerable<UsersSalaryModels> GetUserSalaryEF(int userId)
+        public UsersSalaryModels GetUserSalaryEF(int userId)
         {
-            return _entityFramework.UsersSalary
-                .Where(u => u.UserId == userId)
-                .ToList();
+            return _userRepository.GetSingleUsersSalary(userId);
         }
 
         [HttpPost("UserSalary")]
@@ -139,9 +133,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpPut("UserSalary")]
         public IActionResult PutUserSalaryEf(UsersSalaryModels userForUpdate)
         {
-            UsersSalaryModels? userToUpdate = _entityFramework.UsersSalary
-                .Where(u => u.UserId == userForUpdate.UserId)
-                .FirstOrDefault();
+            UsersSalaryModels? userToUpdate = _userRepository.GetSingleUsersSalary(userForUpdate.UserId);
 
             if (userToUpdate != null)
             {
@@ -159,9 +151,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpDelete("UserSalary/{userId}")]
         public IActionResult DeleteUserSalaryEf(int userId)
         {
-            UsersSalaryModels? userToDelete = _entityFramework.UsersSalary
-                .Where(u => u.UserId == userId)
-                .FirstOrDefault();
+            UsersSalaryModels? userToDelete = _userRepository.GetSingleUsersSalary(userId);
 
             if (userToDelete != null)
             {
@@ -179,11 +169,9 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         #region Users JobInfo
 
         [HttpGet("UserJobInfo/{userId}")]
-        public IEnumerable<UsersJobInfoModels> GetUserJobInfoEF(int userId)
+        public UsersJobInfoModels GetUserJobInfoEF(int userId)
         {
-            return _entityFramework.UsersJobInfo
-                .Where(u => u.UserId == userId)
-                .ToList();
+            return _userRepository.GetSingleUsersJobInfo(userId);
         }
 
         [HttpPost("UserJobInfo")]
@@ -201,9 +189,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpPut("UserJobInfo")]
         public IActionResult PutUserJobInfoEf(UsersJobInfoModels userForUpdate)
         {
-            UsersJobInfoModels? userToUpdate = _entityFramework.UsersJobInfo
-                .Where(u => u.UserId == userForUpdate.UserId)
-                .FirstOrDefault();
+            UsersJobInfoModels? userToUpdate = _userRepository.GetSingleUsersJobInfo(userForUpdate.UserId);
 
             if (userToUpdate != null)
             {
@@ -221,9 +207,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
         [HttpDelete("UserJobInfo/{userId}")]
         public IActionResult DeleteUserJobInfoEf(int userId)
         {
-            UsersJobInfoModels? userToDelete = _entityFramework.UsersJobInfo
-                .Where(u => u.UserId == userId)
-                .FirstOrDefault();
+            UsersJobInfoModels? userToDelete = _userRepository.GetSingleUsersJobInfo(userId);
 
             if (userToDelete != null)
             {
