@@ -25,7 +25,7 @@ namespace Intermediate_DotNet_WebAPI.Controllers
             if (usersRegistration.Password == usersRegistration.PasswordConfirm)
             {
                 string sqlCheckEmailUser = @"
-                    SELECT Email FROM TutorialAppSchema.Auth WHERE Email = '" + usersRegistration.Email + "'";
+                    SELECT Email FROM TutorialAppSchema.Auth WHERE Email = '" + usersRegistration.Email + "' AND Active = 'Y'";
 
                 IEnumerable<string> EmailUsers = _dapper.LoadData<string>(sqlCheckEmailUser);
 
@@ -64,10 +64,24 @@ namespace Intermediate_DotNet_WebAPI.Controllers
 
                     if (_dapper.ExecuteSqlWithParameters(sqlAddAuth, sqlParams))
                     {
-
-                        return Ok();
+                        string sqlAddUsers = @"
+                            INSERT INTO TutorialAppSchema.Users (
+                                [FirstName],
+                                [LastName],
+                                [Email],
+                                [Gender] )
+                            VALUES (" +
+                                "'" + usersRegistration.FirstName +
+                                "', '" + usersRegistration.LastName +
+                                "', '" + usersRegistration.Email +
+                                "', '" + usersRegistration.Gender +
+                                "')";
+                        if (_dapper.ExecuteSql(sqlAddUsers))
+                        {
+                            return Ok();
+                        }
+                        throw new Exception("Failed to Add user!");
                     }
-
                     throw new Exception("Failed to register user!");
                 }
                 throw new Exception("User with this email already exists!");
