@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Intermediate_DotNet_WebAPI.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class UsersEFController : Controller
     {
         IMapper _mapper;
