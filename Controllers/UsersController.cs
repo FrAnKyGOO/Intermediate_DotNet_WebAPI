@@ -10,9 +10,11 @@ namespace Intermediate_DotNet_WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         DataContextDapper _dapper;
+        IConfiguration _config;
         public UsersController(IConfiguration config)
         {
             _dapper = new DataContextDapper(config);
+            _config = config;
         }
 
         [HttpGet("TestConnect")]

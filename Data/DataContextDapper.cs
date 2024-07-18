@@ -36,5 +36,26 @@ namespace Intermediate_DotNet_WebAPI.Data
             IDbConnection dbConnection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             return dbConnection.Execute(sql);
         }
+
+        public bool ExecuteSqlWithParameters(string sql, List<SqlParameter> parameters)
+        {
+            SqlCommand commandWithParameter = new SqlCommand(sql);
+
+            foreach (SqlParameter param in parameters)
+            {
+                commandWithParameter.Parameters.Add(parameters);
+            }
+
+            SqlConnection dbConnection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            dbConnection.Open();
+
+            commandWithParameter.Connection = dbConnection;
+
+            int rowaffected = commandWithParameter.ExecuteNonQuery();
+
+            dbConnection.Close();
+
+            return rowaffected > 0;
+        }
     }
 }
