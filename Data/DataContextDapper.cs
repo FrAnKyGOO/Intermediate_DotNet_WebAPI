@@ -43,7 +43,7 @@ namespace Intermediate_DotNet_WebAPI.Data
 
             foreach (SqlParameter param in parameters)
             {
-                commandWithParameter.Parameters.Add(parameters);
+                commandWithParameter.Parameters.Add(param);
             }
 
             SqlConnection dbConnection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
